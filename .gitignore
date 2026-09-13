@@ -1,0 +1,7 @@
+# History files
+.Rhistory
+.RData
+.RDataTmp
+
+# User-specific project settings
+.Rproj.user/
