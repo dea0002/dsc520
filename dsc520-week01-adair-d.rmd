@@ -1,0 +1,2288 @@
+---
+title: "DCS 520 Week 01 - W3 Tutorials"
+author: "Daniel Adair"
+date: "2026-09-08"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+These exercises are based on the R tutorials available at https://www.w3schools.com/r/ 
+
+## Section: Tutorial
+
+### Topic: R Syntax
+
+#### Syntax
+
+Double quotes are key for rendering text.
+
+```{R}
+print("Hello, World! Also, Hello DSC 520.")
+```
+
+Numbers need no quotes.
+
+```{R}
+6 
+7
+67
+```
+
+Performing simple calculations is, well, simple.
+
+```{R}
+4+4+4 
+```
+
+#### R Print Output
+
+Turns out, I didn't need to include print() in my earlier **Hello, World** greeting.
+
+```{R}
+"Don't need the print() included in here." 
+```
+
+Although I will need print() if I want to iterate through a loop:
+
+```{R}
+for(x in 2:6) { 
+  print(x) 
+} 
+```
+
+### Topic: R Comments
+
+Comments don't seem so necessary in this format, but I'm sure sometimes they're helpful.
+
+```{R}
+# It's like this isn't even here. 
+print("But this is here.")  
+print("And this is here, too, but not the comment at the end.") # why do this? 
+
+# Multi-line comments really seem  unnecessary 
+# in RMD format, since the Markdown 
+# format is generally better. 
+print("But the option is there.")
+```
+
+### Topic: R Variables
+
+#### Variables
+
+Having some fun with variables.
+
+```{R}
+name <- "Danny" 
+age <- 50 
+shouldKnowBetter <- TRUE 
+
+name
+age 
+shouldKnowBetter 
+
+print(age) 
+print(shouldKnowBetter) 
+print(name) 
+
+for (x in 1:10) { 
+  print(x)
+  }
+```
+
+#### R Concatenate Elements
+
+This is even more fun with variables. Seeing how flexibly R can concatenate different data types is eye opening.
+
+```{r}
+who <- "Danny" 
+when <- "by now"
+why <- "because he is"
+adult <- 25 
+older <- 25 
+howOld <- adult + older 
+paste(who, "should know better", when, why, howOld)
+```
+
+#### Multiple Variables
+
+This is probably flexible and helpful, but it seems like it could get confusing in practice.
+
+```{r}
+var9 <- var8 <- var7 <- 67 
+var9
+var8
+var7 
+```
+
+#### R Variable Names (Identifiers)
+
+Mainly demonstrating what triggers errors in the editor.
+
+```{r}
+# Legal variable names:
+thevar <- "Ringo"
+the_var <- "Ringo"
+theVar <- "Ringo"
+THEVAR <- "Ringo"
+thevar2 <- "Ringo"
+.thevar <- "Ringo"
+
+# Illegal variable names:
+# 2myvar <- "Ringo"
+# my-var <- "Ringo"
+# my var <- "Ringo"
+# _my_var <- "Ringo"
+# my_v@ar <- "Ringo"
+# TRUE <- "Ringo"
+```
+
+### Topic: R Data Types
+
+Flexible, but similar to the "**Multiple Variables**" section above, it seems like it could get confusing in practice.
+
+```{r}
+flexible_var <- 30 # flexible_var is type of numeric, integer 
+class(flexible_var)
+flexible_var
+
+flexible_var <- -4.77 # now it's a double 
+class(flexible_var) 
+flexible_var 
+
+flexible_var <- "Gumby" # type is character (aka string)
+class(flexible_var) 
+flexible_var 
+
+flexible_var <- 4i + 2 
+class(flexible_var) # now it's scientific notation? 
+flexible_var
+
+flexible_var <- FALSE
+class(flexible_var) # now it's a Boolean 
+flexible_var
+
+# flexible_var <- false 
+# class(flexible_var) # what if it's lower case? 
+# flexible_var 
+# answer: knitr fails when rendering 
+
+
+```
+
+### Topic: R Numbers
+
+Three types of numbers in R:
+
+- Numeric = contains any number with or without a decimal, like: 10.5, 55, 787.
+- Integer = numeric data without decimals. I am 100% certain I will frequently forget to add the L after the number to indicate it's an integer.
+- Complex = contains both the real and imaginary components. Not sure how this will be used.
+
+#### Numeric
+
+Flexible and easy to see why these are the most common
+
+```{r}
+x <- 7.4
+y <- 12 
+
+# Print values of x and y
+x
+y
+
+# Print the class name of x and y
+class(x)
+class(y)
+
+```
+
+#### Integer
+
+Adding the L suffix is an interesting way to define the data type. And by "interesting" I mean very easy to forget.
+
+```{r}
+x <- 787L
+y <- 67L
+z <- 88.3L 
+
+# Print values and then print the class 
+x
+class(x)
+
+y
+class(y)
+
+z 
+class(z) 
+
+```
+
+Interesting that the Render section showed the following error message and ignored the "L" suffix for variable z. However, the render log will warn about that. 
+
+```         
+Output created: dsc520-week01-daniel-adair.html
+Warning message:
+In parse(text = x, srcfile = src) :
+  integer literal 88.3L contains decimal; using numeric value
+```
+
+#### Complex
+
+I am interested to see where these will be used in the course.
+
+```{r}
+x <- 3+5i
+y <- 5i
+
+# Print values of x and y
+x
+y
+
+# Print the class name of x and y
+class(x)
+class(y)
+```
+
+#### Type Conversion 
+
+R offers the following mechanisms to convert numeric data types:
+
+* as.numeric() converts values to numeric, which supports decimals
+* as.integer() converts values to integers, which would seemingly strip decimals 
+* as.complex() converts values to complex type, and I have no idea where or why that would be applicable.  
+
+```{r}
+
+a <- 16L 
+b <- 44.96 
+c <- 16 
+
+x <- as.numeric(a) 
+y <- as.integer(b) 
+z <- as.integer(c) 
+
+a 
+class(a) 
+x 
+class(x) 
+b 
+class(b) 
+y 
+class(y) 
+c 
+class(c) 
+z 
+class(z) 
+
+```
+
+As expected, only the whole number remained after the conversion from numeric b to integer y. 
+
+
+### Topic: R Math 
+
+#### Simple Math 
+
+```{r}
+11 + 19 
+11 - 19 
+
+```
+
+#### Built-in Math Functions 
+
+**Min, Max** 
+
+```{r}
+max(-16, 994320, 23432) 
+min(-16, 994320, 23432) 
+```
+
+**Square Root**
+
+```{r}
+sqrt(81)
+```
+
+
+**Absolute value** 
+
+```{r}
+abs(-45336)
+```
+
+**Ceiling and Floor and some extras** 
+
+Initially I mistook ceiling and floor for a rounding function, which got me thinking about rounding functions in R, so here are some extras. 
+
+```{r}
+x <- 7.7373546
+y <- 5.8226752 
+paste("Ceilings:", "x:", ceiling (x), "|", "y:", ceiling(y)) 
+paste("Floors:", "x:", floor(x), "|", "y:", floor(y)) 
+paste("Round to 2 positions:", "x:", round (x, 2), "|", "y:", round(y, 2))
+paste("Round to 4 positions:", "x:", round (x, 4), "|", "y:", round(y, 4))
+paste("Truncate:", "x:", trunc (x), "|", "y:", trunc(y))
+
+
+```
+
+### Topic: R Strings 
+
+#### String Literals 
+
+Apparently it doens't matter if you use single or double quotes. 
+
+```{r}
+"double" 
+'single' # interesting that this renders with the double quotes 
+```
+
+#### Assign a String to a Variable 
+
+```{r}
+single <- 'Single quotes' 
+double <- "Double quotes"
+```
+
+#### Multiline Strings 
+
+```{r}
+verbose <- 'The noted poet Ron Burgundy is famous for phrases like  
+"How now brown cow," "The arsonist has oddly shaped feet," 
+and "The human torch was denied a bank loan."' 
+
+verbose 
+```
+
+Well that didn't look so great. 
+
+```{r}
+cat(verbose)
+```
+
+#### Checking String Length 
+
+```{r}
+nchar(verbose) 
+nchar(single)
+```
+
+#### Check a String 
+
+The second example shows grepl() is case sensitive. 
+
+```{r}
+paste("Is 'torch' inside the verbose string?", grepl('torch', verbose))
+paste("Is 'how' inside the verbose string?", grepl('how', verbose)) 
+paste("Is 'How' inside the verbose string?", grepl('How', verbose)) 
+paste("Is 'mantooth' inside the verbose string?", grepl('mantooth', verbose))
+```
+
+#### Combine Two Strings 
+
+```{r}
+str1 = "Clearly, I'm a fan" 
+str2 = "of the 'paste' function."
+
+paste(str1, str2)
+```
+
+### Topic: R Escape Characters 
+
+```{r}
+# fantana <- "And Brick said, "I love lamp" to Veronica"
+# fantana # this will fail because of the embedded double quote 
+```
+
+As expected, this ^^ failed 
+
+```{r}
+champ <- "And Brick said, \"I love lamp\" to Veronica" 
+champ # the escape character should fix it 
+cat(champ) # cat to the rescue! 
+
+```
+
+
+### Topic: R Booleans / Logical Values 
+
+#### Booleans (Logical Values) 
+
+```{r}
+
+# Direct comparisons 
+11 > 8 
+11 == 11.1 
+-2 < -8 
+
+# Using variables 
+x <- 85469684756 
+y <- 4 
+y > x
+
+
+if (x >= y) {
+  print ("x is greater than y") 
+} else { 
+  print("x is not greater than a")
+}
+
+
+```
+
+
+### Topic: R Operators 
+
+R supports the following groups of operators: 
+- Arithmetic operators
+- Assignment operators
+- Comparison operators
+- Logical operators
+- Miscellaneous operators
+
+
+#### R Arithmetic Operators 
+
+```{r}
+6 + 7     # Addition 
+6 - 7     # Subtraction 
+6 * 7     # Multiplication 
+6 / 7     # Division 
+6 ^ 7     # Exponent 
+6 %% 7    # Modulus 
+15 %/% 6  # Integer division
+```
+
+
+#### R Assignment Operators 
+
+All of these assignment operators have the same effect on a local level: 
+
+```{r}
+my_var <- 3
+my_var
+my_var <<- 3
+my_var
+3 -> my_var
+my_var
+3 ->> my_var
+my_var
+```
+
+The difference between `<-` and `=` occurs in functions. `=` is reserved for function arguments and is scoped at the level of that function. Conversely, `<-` creates a variable in the current environment while passing the value to the function. 
+
+```{r}
+median(x = c(1, 2, 234324)) 
+x
+
+median(y <- c(3, 4, 546854)) 
+y
+```
+
+Notice how the second example using `<-` creates a variable containing the vector. 
+
+#### R Comparison Operators 
+
+```{r}
+6 == 7  # Equal 
+6 != 7  # Not equal  
+6 >  7  # Greater than 
+6 <  7  # Less than 
+6 >= 7  # Greater than or equal to 
+6 <= 7  # Less than or equal to 
+```
+
+
+#### R Logical Operators 
+
+```{r} 
+
+x <- c(TRUE,  TRUE,  FALSE)
+y <- c(TRUE,  FALSE, FALSE)
+x & y
+# # Returns: TRUE FALSE FALSE
+# # (It checked all 3 positions individually)
+
+x <- c(TRUE,  TRUE,  FALSE)
+all(x) # checks if all elements in the vector are TRUE 
+any(x) # checks if any elements in the vector are TRUE 
+
+y <- c(TRUE,  FALSE, FALSE) 
+all(y) 
+any(y)
+
+all(x) && all(y) # checks if all elements of both x and y are TRUE 
+any(x) && any(y) # checks if any elements of x and y are TRUE 
+```
+
+
+#### R Miscellaneous Operators 
+
+```{r}
+x <- 5:12 # iterates through a range and writes the result to a field 
+x 
+
+7 %in% x  # checks if a value is inside 
+```
+
+
+### Topic: R If ... Else 
+
+### Conditions and If Statements 
+
+#### If Keyword 
+
+```{r}
+a <- 55
+b <- 165
+
+if (b > a) {
+  print("b is greater than a")
+}
+```
+
+#### Else If and Else Keywords 
+
+This is the type of rule structure I continually see in business rules at work. 
+
+```{r}
+a <- 55 
+b <- 75 
+
+if (a < b) { 
+  print("b is greater than a") 
+} else if (b == a) { 
+  print("b and a are equal") 
+} else { 
+  print("a is greater than b")
+}
+```
+
+#### Nested If Keywords 
+
+I see tons of this structure, too, but I encourage my team to avoid them when possible, since they can become substantially tougher to debug when the structure scales up. 
+
+```{r}
+x <- 15
+
+if (x > 10) {
+  print("Above ten")
+  if (x > 20) {
+    print("and also above 20!")
+  } else {
+    print("but not above 20.")
+  }
+} else {
+  print("below 10.")
+}
+
+```
+
+### Topic: R AND OR Operators 
+
+#### AND 
+
+```{r}
+x <- 75 
+y <- 25 
+z <- 325 
+
+if (x > y & z > x) { 
+  print("Both conditions are true")
+}
+```
+
+#### OR 
+
+```{r}
+x <- 75 
+y <- 25 
+z <- 325 
+
+if (x > y | z > x) { 
+  print("At least one of the conditions are true")
+}
+```
+
+### Topic: While Loop 
+
+Loops are a powerful tool to create and consistent code and like with any powerful tool, they can make incredible messes!  R supports **while** and **for** loops. 
+
+#### Loops 
+
+**While** loops continue executing a set of statements as long as a condition is TRUE. 
+
+```{r}
+i <- 1 
+while (i < 11) {
+  print(i) 
+  i <- i + 1 # essential to have an incrementing step 
+}
+```
+
+#### Break 
+
+The **break** statement exits the lop even if the while condition is still true. 
+
+```{r}
+i <- 1 
+while (i < 11) {
+  print(i) 
+  i <- i + 1
+  if (i == 7) { 
+    break 
+    }
+}
+```
+
+#### Next 
+
+Similar to break, the **next** statement allows a loop to step over one iteration but remain inside the loop 
+
+```{r}
+i <- 0  # NOTE the index must be initialized at zero, otherwise the list starts at 2
+while (i < 11) {
+  i <- i + 1
+  if (i == 5) { 
+    next
+  } 
+    print(i) 
+# NOTE the list matches the upper boundary because the index is incremented early 
+}
+```
+
+#### Yahtzee! 
+
+```{r}
+dice <- 1
+while (dice <= 6) {
+  if (dice < 6) {
+    print("No Yahtzee")
+  } else {
+    print("Yahtzee!")
+  }
+  dice <- dice + 1
+}
+```
+
+### Topic: R For Loops 
+
+#### For Loops 
+
+```{r}
+for (q in 1:5) { 
+  print(q) 
+}
+
+print("===========")
+
+anchors <- list("Veronica", "Ron", "Brian", "Champ", "Brick") 
+
+for (x in anchors) { 
+  print(x) 
+}
+```
+
+#### Break 
+
+Break allows us to step out of the loop before completing the full list. 
+
+```{r}
+anchors <- list("Veronica", "Ron", "Brian", "Champ", "Brick") 
+
+for (x in anchors) { 
+  if (x == "Brian") { 
+    break 
+    }
+  print(x) 
+}
+
+```
+
+#### Next 
+
+Similar to before, **next** lets us skip a list iteration and return to the loop. 
+
+```{r}
+anchors <- list("Veronica", "Ron", "Brian", "Champ", "Brick") 
+
+for (x in anchors) { 
+  if (x == "Ron") { 
+    next 
+    }
+  print(x) 
+}
+
+```
+
+#### Yahtzee! V2 
+
+Same general idea, this time upgraded 
+
+```{r}
+dice <- 1:6 
+
+for(x in dice) { 
+  if (x == 6) { 
+    print(paste("The dice number is", x, "Yahtzee!")) 
+  } else { 
+      print(paste("The dice number is", x, "Not Yahtzee"))
+  }
+  }
+```
+
+### Topic: R Nested Loops 
+
+It's possible to nest one loop inside another loop, but I avoid this whenever possible due to maintenance headaches. 
+
+```{r}
+adj <- list("red", "big", "speedy")
+
+cars <- list("Ford", "Chevy", "Jeep")
+  for (x in adj) {
+    for (y in cars) {
+      print(paste(x, y))
+  }
+}
+```
+
+... but seeing how much content is structured with simple and scalable code, it's hard to argue with the benefits of a well-structred nested loop. 
+
+### Topic: R Functions 
+
+Functions are modular components of logic that can accept parameters and perform operations; e.g., printing text, processing data, etc. 
+
+
+#### Creating & Calling a Function 
+
+```{r}
+the_function <- function() { # create a function with the name the_function; no parameters involved 
+  print("Extensive Tutorial!")
+}
+
+the_function() # calls the function 
+```
+
+#### Arguments 
+
+If a function is the recipe, arguments are the ingredients. "Parameter" is the term for the entity within the parentheses of the function definition, whereas "argument" is the term for the value passed into the function at the time it is called. Parameter is defined once when the function is established and parameters are used whenever the function is called. 
+
+
+```{r}
+
+jacksons <- function(first_name) {
+  paste(first_name, "Jackson") 
+} 
+
+jacksons("Joe") 
+jacksons("Katherine") 
+jacksons("Rebbie") 
+jacksons("Jackie") 
+jacksons("Tito") 
+jacksons("Jermaine") 
+jacksons("La Toya") 
+jacksons("Marlon") 
+jacksons("Brandon") 
+jacksons("Michael")
+jacksons("Randy") 
+jacksons("Janet") 
+
+```
+
+
+#### Number of Arguments 
+
+Functions must be called using the exact same number of arguments as listed in the function definition. Anything else will cause an error. 
+
+```{r}
+
+jacksons_role <- function(first_name, role) {
+  paste(first_name, "Jackson,", role) 
+} 
+
+jacksons_role("Joe", "dad") 
+jacksons_role("Katherine", "mom") 
+jacksons_role("Rebbie", "child") 
+jacksons_role("Jackie", "child")  
+jacksons_role("Tito", "child")  
+jacksons_role("Jermaine", "child")  
+jacksons_role("La Toya", "child")  
+jacksons_role("Marlon", "child")  
+jacksons_role("Brandon", "child")  
+jacksons_role("Michael", "child") 
+jacksons_role("Randy", "child")  
+jacksons_role("Janet", "child")  
+
+# will cause an error 
+# jacksons_role("Michael", "child", "superstar")
+# error:   unused argument ("superstar")
+# jacksons_role("Michael") 
+# error: argument "role" is missing, with no default
+
+```
+
+#### Default Parameter Value 
+
+It's possible to define a default parameter value, which makes the function more flexible and fault-tolerant. 
+
+```{r}
+usa_origin <- function(city = "some city", state = "somewhere in the U.S.A.") {
+  paste("I am from", city, ",", state)
+}
+
+usa_origin("Juneau", "Alaska")
+usa_origin("Crested Butte", "Colorado")
+usa_origin() # will get both default values, which is "some city, somewhere in the U.S.A."
+usa_origin("New York City") # will get both default values, which is "some city, somewhere in the U.S.A."
+usa_origin(, "Alabama") # will get both default values, which is "some city, somewhere in the U.S.A."
+usa_origin("San Antonio", "Texas")
+```
+
+
+#### Return Values 
+
+The `return()` function passes the result of the function back to the code that called it. 
+
+```{r}
+multiplier5x <- function(x) {
+  return (5 * x)
+} 
+
+print(multiplier5x(2))
+print(multiplier5x(5))
+print(multiplier5x(15))
+print(multiplier5x(9375393))
+```
+
+### Topic: R Nested Functions 
+
+To nest functions, you can (A) call a function within a function or (B) write a function within another function. From a quick search, it seems pattern A is computationally preferable, and this pattern also has some maintenance and testing benefits. 
+
+#### Pattern A: Call Function from Another Function 
+
+
+```{r}
+Nested_function <- function(x, y) {
+  a <- x + y
+  return(a)
+}
+
+Nested_function(Nested_function(2,2), Nested_function(3,3))
+```
+
+In this example the first nested function call evaluated as `2 + 2` and the second call evaluated as `3 + 3`. Finally, the outer function call took the results of the two nested function calls and evaluated them as `4 + 6` for a result of **10**. 
+
+
+#### Pattern B: Defining a Function within Another Function 
+
+
+```{r}
+Outer_func <- function(x) {
+  Inner_func <- function(y) {
+    a <- x + y
+    return(a)
+  }
+  return (Inner_func)
+}
+output <- Outer_func(3) # To call the Outer_func
+output(9)
+```
+
+Note: I find this structure quite challenging to grasp and counterintuitive. I tried multiple Gemini explanations and detailed walkthroughs, and two things emerged: (1) I'm still not geting it so far, and (2) apparently there are under-the-covers performance downsides to the nested function approach. I'm interested to see how this might be covered elsewhere in this class, but given these factors I'm much more likely to utilize Pattern A's separate function definition structure. 
+
+
+### Topic: R Function Recursion 
+
+Functions can call themselves, which supports elegant looping structures. Without careful design, these functions can become runaway resource consumers. 
+
+```{r}
+tri_recursion <- function(k) {
+  if (k > 0) {
+    result <- k + tri_recursion(k - 1)
+    print(result)
+  } else {
+    result = 0
+    return(result)
+  }
+}
+tri_recursion(6)
+```
+This example calculates the "k-th triangular number", according to Google. The addition portion of the function waits for the recursive downward looping from 6 to 0, and then it "unwinds" back upward, adding the `result` values as it goes. 
+
+It may be a minutes before I fully understand this and can natively implement it to solve problems. :-) 
+
+### Topic: R Global Variables 
+
+Global variables are created outside of a function and they're available everywhere, whether within a function or outside it. 
+
+**Example of a global function** 
+```{r}
+txt <- "awesome"
+my_function <- function() {
+  paste("R is", txt)
+} 
+
+other_function <- function() { 
+  paste("Vacations are", txt)}
+
+my_function() 
+other_function() 
+```
+
+Both functions work becuase the `txt` variable is defined globally and can therefore be accessed from both functions. 
+
+
+**Example of a function-scoped variable** 
+```{r}
+txt <- "global variable"
+my_function <- function() {
+  txt = "fantastic"
+  paste("R is", txt)
+}
+
+my_function()
+
+txt # print txt
+```
+
+The first function uses its local instance of `txt`, but the global version of `txt` takes over once outside the function. 
+
+### Topic: Global Assignment Operator 
+
+The `<<-` operator allows a variable to be assigned at the global level from within a function. 
+
+**Updating an Existing Global Variable** 
+
+```{r}
+txt <- "awesome" 
+paste("The initial value is", txt) 
+
+my_function <- function() {
+  txt <<- "fantastic" # updating an existing global variable 
+  paste("R is", txt)
+}
+
+my_function()
+
+paste("R is", txt) # reflects the value updated within the function 
+```
+
+**Creating a New Global Variable from within a Function** 
+
+The global assignment variable can even create global variables from within a function. 
+
+```{r}
+my_function <- function() {
+txt <<- "fantastic"
+  paste("R is", txt)
+}
+
+my_function()
+
+print(txt)
+```
+
+## Section: R Data Structures 
+
+R provides many flexible built-in data structures to store and organize data, each with unique characteristics and use cases. 
+
+### Topic: Vectors 
+
+A vector is a list of items of the same type. Use the `c()` function to add items to the vector, separated by commas. 
+
+#### Adding Items to Vectors 
+
+```{r}
+studs <- c("Wemby", "Castle", "Harper") # combining strings 
+studs 
+
+odds <- c(7, 3, 9, 1, 5) # combining numbers 
+odds 
+
+num_range <- 10:15 # range of numbers 
+num_range 
+
+series_add1 <- 2.2:6.2 # increments through the series by 1.0 
+series_add1 
+
+series_add2 <- 3.3:7.1 # see explanation below 
+series_add2 
+
+logicals <- c(TRUE, FALSE, TRUE, FALSE, FALSE) 
+logicals 
+
+```
+
+Note: in `series_add2` the last item printed is 6.3 because 6.3 + 1 = 7.3, which is greater than the series range boundary, therefore the last item isn't printed. 
+
+
+#### Sorting Vectors 
+
+```{r}
+length(logicals) # the number of items in the logicals vector 
+
+studs # String vector before sorting 
+sort(studs) 
+studs # printing again to show the sort is only temporary 
+
+odds # numbers before sorting 
+sort(odds) 
+odds # printing again to show the sort is only temporary 
+
+```
+
+#### Accessing and Changing Vectors 
+
+```{r}
+studs 
+studs[2] # accessing a single item 
+
+odds 
+odds[c(2, 5)] # accessing multiple items 
+
+odds[c(-3)] # accessing all items except the third 
+
+studs[2] <- "Duncan" 
+studs[3] <- "Robinson" 
+studs # making an all-7-footer stud list 
+
+```
+
+#### Repeating Vectors 
+
+The `each` and `times` keywords repeat items independently and entire sequences, respectively. Using a `times` keyword allows for controlling value repetition independently. 
+
+```{r}
+repeat_each <- rep(c(1,2,3), each = 3)
+repeat_each
+repeat_times <- rep(c(1,2,3), times = 2)
+repeat_times 
+repeat_indepent <- rep(c(9,7,5), times = c(3,1,4))
+repeat_indepent 
+
+```
+
+#### Sequenced Vectors 
+
+Using the `seq()` function allows for controlling how R increments through a series. 
+
+```{r}
+numbers <- seq(from = 2, to = 200, by = 34)  
+numbers 
+
+```
+
+
+### Topic: Lists  
+
+Lists can contain varied data types, unlike homogeneous vectors.  
+
+#### Creating, Accessing, Updating, Sizing, and Checking Lists 
+
+```{r}
+testlist <- list("kiwi", "cherry", "orange", "banana") 
+testlist 
+
+testlist[3] # accessing the third item 
+
+testlist[2] <- "mango" # updating the second item 
+testlist  
+
+length(testlist) # fetching the length of testlist 
+
+"cherry" %in% testlist # checking for the presence of a value  
+"mango" %in% testlist # checking for the presence of a value  
+
+morefruits <- list("apple", "banana", "cherry", "orange", "kiwi", "melon", "mango")
+
+(morefruits)[2:4] # Accessing a range of items 
+
+for (x in morefruits) { # printing in a more concise format 
+  print(x) 
+  }
+```
+
+#### Adding Items to Lists 
+
+```{r}
+mascots <- list("longhorns", "aggies", "bears", "roadrunners", "eagles") 
+mascots # printing the original list 
+append(mascots, "horned frogs") # gotta represent TCU 
+mascots # showing the updated list 
+```
+
+**Note** this form of `append` did ***not*** persist the added value to the list, so when I printed the mascot list again, the appended item was missing. In order to fix this, we need to re-assign the appended list to either the same list or to a new list. 
+
+```{r}
+mascots <- append(mascots, "horned frogs") 
+mascots # now TCU is permanently represented 
+```
+
+##### Appending by position 
+
+```{r}
+mascots # before adding houston to the third slot 
+append(mascots, "cougars", after = 2) # SMU is probably mad they're not third
+mascots # checking to see if the same behavior exists again 
+mascots <- append(mascots, "cougars", after = 2) # making it permanent 
+mascots 
+```
+
+#### Removing List Items 
+
+```{r}
+trees <- list("elm", "oak", "magnolia", "redwood") 
+ex_elm <- trees[-1] # removing the first item 
+ex_elm 
+```
+
+#### Joining Two Lists 
+
+```{r}
+list1 <- list("a", "b", "c")
+list2 <- list(1,2,3)
+list3 <- c(list1,list2)
+
+list3 
+for (x in list3) { # printing in a more concise format 
+  print(x) 
+  }
+
+```
+
+
+### Topic: Matrices  
+
+Matrices are two dimensional datasets, which can be reshaped by the `nrow` and `ncol` parameters. 
+
+**Note** - Matrices are loaded from top to bottom, not left to right. 
+
+```{r}
+# Create two matrices 
+thismatrix1 <- matrix(c(1,2,3,4,5,6), nrow = 3, ncol = 2)
+thismatrix2 <- matrix(c(1,2,3,4,5,6), nrow = 2, ncol = 3) # demonstrating how to restructure output with the nrow and ncol values 
+
+# Print the matrices 
+thismatrix1
+thismatrix2
+```
+
+Applying the same transformations to string matrices. 
+
+```{r}
+stringmatrix1 <- matrix(c("apple", "banana", "cherry", "orange", "mango", "melon"), nrow = 2, ncol = 3)
+stringmatrix2 <- matrix(c("apple", "banana", "cherry", "orange", "mango", "melon"), nrow = 3, ncol = 2)
+
+stringmatrix1
+stringmatrix2
+```
+
+#### Accessing Matrix Items 
+
+Use brackets `[ ]` to access specific matrix items. The brackets can contain one or two parameters: the first defined the row to access, and the second specifies the column to access. Specifying both parameters will return a single value, and specifying only one will return the entire vector of values. 
+
+
+```{r}
+thismatrix <- matrix(c("apple", "banana", "cherry", "orange"), nrow = 2, ncol = 2)
+thismatrix 
+thismatrix[1, 2] # retrieves cherry - the first item in the row, on the second column 
+```
+
+Accessing the entire row or entire column 
+
+```{r}
+thismatrix
+thismatrix[2,] # fetching the second row 
+thismatrix[,2] # fetching the second column 
+
+```
+##### Access More Than One Row 
+
+```{r}
+thismatrix <- matrix(c("apple", "banana", "cherry", "orange","grape", "pineapple", "pear", "melon", "fig"), nrow = 3, ncol = 3)
+thismatrix 
+thismatrix[c(1,2),]
+```
+
+
+##### Access More Than One Column 
+
+```{r}
+thismatrix <- matrix(c("apple", "banana", "cherry", "orange","grape", "pineapple", "pear", "melon", "fig"), nrow = 3, ncol = 3)
+thismatrix 
+thismatrix[,c(1,2)]
+``` 
+
+
+#### Add Rows and Columns 
+
+**Add Column**
+
+The `cbind()` function adds columns to a matrix.  
+
+```{r}
+thismatrix <- matrix(c("apple", "banana", "cherry", "orange","grape", "pineapple", "pear", "melon", "fig"), nrow = 3, ncol = 3)
+thismatrix
+newmatrix <- cbind(thismatrix, c("strawberry", "blueberry", "raspberry"))
+
+# Print the new matrix
+newmatrix
+```
+
+**Add Row** 
+
+The similar `rbind()` fcuntion adds a row to a matrix. 
+
+```{r}
+thismatrix <- matrix(c("apple", "banana", "cherry", "orange","grape", "pineapple", "pear", "melon", "fig"), nrow = 3, ncol = 3)
+thismatrix
+
+newmatrix <- rbind(thismatrix, c("strawberry", "blueberry", "raspberry"))
+
+# Print the new matrix
+newmatrix
+```
+
+#### Remove Rows and Columns 
+
+**Remove Column** 
+
+```{r}
+thismatrix <- matrix(c("apple", "banana", "cherry", "orange", "mango", "pineapple"), nrow = 3, ncol =2)
+thismatrix
+
+#Remove the first column 
+newmatrix <- thismatrix[, -c(1)]
+newmatrix
+```
+
+Notice how the remaining column was transposed into a horizontal arrangement. 
+
+**Remove Row** 
+
+```{r}
+thismatrix <- matrix(c("apple", "banana", "cherry", "orange", "mango", "pineapple"), nrow = 3, ncol =2)
+thismatrix
+
+#Remove the first row
+newmatrix <- thismatrix[-c(1),]
+newmatrix
+```
+
+Notice how this edit left the two columns. 
+
+#### Check If Item Exists 
+
+```{r}
+thismatrix <- matrix(c("apple", "banana", "cherry", "orange", "mango", "pineapple"), nrow = 3, ncol =2)
+thismatrix 
+
+"orange" %in% thismatrix 
+"dragonfruit" %in% thismatrix
+``` 
+
+#### Check the Matrix Dimensions
+
+```{r}
+thismatrix <- matrix(c("apple", "banana", "cherry", "orange"), nrow = 2, ncol = 2)
+thismatrix 
+
+dim(thismatrix) # Matrix size 
+length(thismatrix) # Matrix length
+```
+
+#### Loop through a Matrix 
+
+Iterating through items in rows, left to right, then the next column 
+
+```{r}
+thismatrix <- matrix(c("apple", "banana", "cherry", "orange"), nrow = 2, ncol = 2)
+thismatrix
+
+for (rows in 1:nrow(thismatrix)) {
+  for (columns in 1:ncol(thismatrix)) {
+    print(thismatrix[rows, columns])
+  }
+}
+```
+
+Flipped the order, iterating through items in the columns from left to right 
+
+```{r}
+for (columns in 1:ncol(thismatrix)) {
+  for (rows in 1:nrow(thismatrix)) {
+    print(thismatrix[rows, columns])
+  }
+}
+```
+
+#### Combine Two Matrices 
+
+`rbind()` and `cbind()` make it surprisingly easy to join one matrix onto another. 
+
+```{r}
+# Combine matrices
+Matrix1 <- matrix(c("apple", "banana", "cherry", "grape"), nrow = 2, ncol = 2)
+Matrix2 <- matrix(c("orange", "mango", "pineapple", "watermelon"), nrow = 2, ncol = 2)
+
+# Adding it as a rows
+Matrix_Combined_rows <- rbind(Matrix1, Matrix2)
+Matrix_Combined_rows
+
+# Adding it as a columns
+Matrix_Combined_cols <- cbind(Matrix1, Matrix2)
+Matrix_Combined_cols 
+```
+
+
+### Topic: Arrays 
+
+Matrices are limited to two dimensions, while **arrays** can have more than two dimensions. The `array()` function creates the array and the `dim` parameter defines the dimensions. 
+
+**Note** Arrays can only have one data type. 
+
+```{r}
+# An array with one dimension with values ranging from 1 to 24
+thisarray <- c(1:24)
+thisarray
+
+# An array with more than one dimension
+multiarray <- array(thisarray, dim = c(4, 3, 2))
+multiarray
+```
+
+
+#### Access Array Items 
+
+Use `[ ]` brackets to address specific items in the array. The sequence of location references in the brackets is row, column, matrix level. 
+
+**Accessing a single item** 
+
+```{r}
+thisarray <- c(1:24)
+multiarray <- array(thisarray, dim = c(4, 3, 2))
+
+multiarray[2, 3, 2]
+```
+
+**Accessing an entire row** 
+
+```{r}
+thisarray <- c(1:24)
+
+# Access all the items from the third row from matrix two 
+multiarray <- array(thisarray, dim = c(4, 3, 2))
+multiarray[c(3),,2]
+```
+
+**Accessing an entire column** 
+
+```{r}
+# Access all the items from the second column from matrix one
+multiarray <- array(thisarray, dim = c(4, 3, 2))
+multiarray[,c(2),1]
+```
+
+#### Check if an Item Exists / Number of Rows & Columns / Array Length 
+
+**Check if an Item Exists** 
+
+As with matrices, use the `%in%` operator to find a value anywhere in an array. 
+
+```{r}
+thisarray <- c(1:24)
+multiarray <- array(thisarray, dim = c(4, 2, 3))
+multiarray
+
+2 %in% multiarray
+```
+
+**Determine Number of Rows and Columns**
+
+Use `dim()` to find the nubmer of rows and columns. 
+
+```{r}
+thisarray <- c(1:24)
+multiarray <- array(thisarray, dim = c(4, 3, 2))
+
+dim(multiarray)
+```
+
+**Array Length** 
+Use `length()` to determine the number of elements in an array. 
+
+```{r}
+thisarray <- c(1:24)
+multiarray <- array(thisarray, dim = c(4, 2, 3))
+
+length(multiarray) 
+```
+
+#### Loop through an Array 
+
+Use a `for` loop to iterate through the items in an array. 
+
+```{r}
+thisarray <- c(24:48)
+multiarray <- array(thisarray, dim = c(3, 2, 4))
+multiarray
+
+for(x in multiarray) {
+  print(x)
+}
+```
+
+
+### Topic: Data Frames 
+
+Data Frames are data rendered as a table. Each table can contain varied data types, but each column must have the same data type. 
+
+Use `data.frame()` to create a data frame. 
+
+```{r}
+# Create a data frame
+Data_Frame <- data.frame (
+  Training = c("Strength", "Stamina", "Other"),
+  Pulse = c(100, 150, 120),
+  Duration = c(60, 30, 45)
+)
+
+# Print the data frame
+Data_Frame
+```
+
+#### Summarize the Data Frame 
+
+The `summary()` function summarizes data from a data frame, and the summary function can implement various form statistical measures. 
+
+```{r}
+Data_Frame <- data.frame (
+  Training = c("Strength", "Stamina", "Other"),
+  Pulse = c(100, 150, 120),
+  Duration = c(60, 30, 45)
+)
+
+Data_Frame
+
+summary(Data_Frame)
+```
+
+By default, the `summary()` function returns basic descriptive statistic information, with varied measures based on string or numeric inputs. 
+
+#### Accessing Items within a Data Frame 
+
+- Use single brackets `[ ]` to reference columns by ordinal position within the frame. Only this method returns values in a vertical list. 
+- Use double brackets `[[ ]]` to reference columns by column name within the frame. This displays values in a horizontal arrangement. 
+- Use `$` as another means to reference a column by name. This displays values in a horizontal arrangement. 
+
+```{r}
+Data_Frame <- data.frame (
+  Training = c("Strength", "Stamina", "Other"),
+  Pulse = c(100, 150, 120),
+  Duration = c(60, 30, 45)
+)
+
+Data_Frame[1]
+
+Data_Frame[["Training"]]
+
+Data_Frame$Training
+```
+
+#### Adding Rows 
+
+Use `rbind()` to add rows. (Similar to Matrices and Arrays!) 
+
+```{r}
+Data_Frame <- data.frame (
+  Training = c("Strength", "Stamina", "Other"),
+  Pulse = c(100, 150, 120),
+  Duration = c(60, 30, 45)
+)
+
+# Add a new row
+New_row_DF <- rbind(Data_Frame, c("Strength", 110, 110))
+
+# Print the new row
+New_row_DF
+```
+
+
+#### Adding Columns 
+
+Use `cbind()` to add columns. (Also similar to Matrices and Arrays!) 
+
+```{r}
+Data_Frame <- data.frame (
+  Training = c("Strength", "Stamina", "Other"),
+  Pulse = c(100, 150, 120),
+  Duration = c(60, 30, 45)
+)
+
+# Add a new column
+New_col_DF <- cbind(Data_Frame, Steps = c(1000, 6000, 2000))
+
+# Print the new column
+New_col_DF
+```
+
+#### Remove Rows and Columns 
+
+**Remove Row** 
+
+```{r}
+Data_Frame <- data.frame (
+  Training = c("Strength", "Stamina", "Other"),
+  Pulse = c(100, 150, 120),
+  Duration = c(60, 30, 45)
+)
+
+# Remove the first row 
+Data_Frame_New <- Data_Frame[-c(1), ]
+
+# Print the new data frame
+Data_Frame_New
+```
+
+**Remove Column** 
+
+```{r}
+Data_Frame <- data.frame (
+  Training = c("Strength", "Stamina", "Other"),
+  Pulse = c(100, 150, 120),
+  Duration = c(60, 30, 45)
+)
+
+# Remove the first column 
+Data_Frame_New <- Data_Frame[,-c(1)]
+
+# Print the new data frame
+Data_Frame_New
+```
+
+#### Number of Rows & Columns / Data Frame Length 
+
+**Number of Rows & Columns** 
+
+`dim()` defines the number of rows and columns. 
+
+```{r}
+Data_Frame <- data.frame (
+  Training = c("Strength", "Stamina", "Other"),
+  Pulse = c(100, 150, 120),
+  Duration = c(60, 30, 45)
+)
+
+dim(Data_Frame)
+```
+
+**Number of Rows or Columns** 
+
+```{r}
+Data_Frame <- data.frame (
+  Training = c("Strength", "Stamina", "Other"),
+  Pulse = c(100, 150, 120),
+  Duration = c(60, 30, 45)
+)
+
+ncol(Data_Frame)
+nrow(Data_Frame)
+```
+
+**Data Frame Length** 
+
+`length()` returns the number of columns, similar to `ncol()` 
+
+```{r}
+Data_Frame <- data.frame (
+  Training = c("Strength", "Stamina", "Other"),
+  Pulse = c(100, 150, 120),
+  Duration = c(60, 30, 45)
+)
+
+length(Data_Frame)
+```
+
+#### Combining Data Frames 
+
+`rbind()` and `cbind()` can combine two or more data frames vertically or horizontally, respectively. 
+
+**Vertical: rbind()** 
+
+```{r}
+Data_Frame1 <- data.frame (
+  Training = c("Strength", "Stamina", "Other"),
+  Pulse = c(100, 150, 120),
+  Duration = c(60, 30, 45)
+)
+
+Data_Frame2 <- data.frame (
+  Training = c("Stamina", "Stamina", "Strength"),
+  Pulse = c(140, 150, 160),
+  Duration = c(30, 30, 20)
+)
+
+New_Data_Frame <- rbind(Data_Frame1, Data_Frame2)
+New_Data_Frame
+```
+
+**Horizontal: cbind()** 
+
+```{r}
+Data_Frame3 <- data.frame (
+  Training = c("Strength", "Stamina", "Other"),
+  Pulse = c(100, 150, 120),
+  Duration = c(60, 30, 45)
+)
+
+Data_Frame4 <- data.frame (
+  Steps = c(3000, 6000, 2000),
+  Calories = c(300, 400, 300)
+)
+
+New_Data_Frame1 <- cbind(Data_Frame3, Data_Frame4)
+New_Data_Frame1
+```
+
+
+### Topic: Factors 
+
+Factors are useful in categorizing data, specifically in cataloging categorical attributes. 
+
+To create a factor, use the factor() function: 
+
+```{r}
+# Create a factor
+music_genre <- factor(c("Jazz", "Rock", "Classic", "Classic", "Pop", "Jazz", "Rock", "Jazz"))
+
+# Print the factor
+music_genre
+```
+
+The `factor()` function returns the distinct values in the vector.  
+
+By default, the `factor()` function returns the full factor list and the alphabetized distinct values. 
+
+If you only want to print the levels, use the `levels()` function. 
+
+```{r}
+levels(music_genre) 
+```
+
+**Adding a Level** 
+
+Use the `levels` argument inside the factor() function to add a level to an existing list. Notice how this code adds the value **Other** 
+
+```{r}
+music_genre <- factor(c("Jazz", "Rock", "Classic", "Classic", "Pop", "Jazz", "Rock", "Jazz"), levels = c("Classic", "Jazz", "Pop", "Rock", "Other"))
+
+levels(music_genre)
+```
+
+
+#### Determining Factor Length / Accessing Factors 
+
+**Length** 
+
+Use the `length()` function to determine how many items exist in a factor. 
+
+```{r}
+music_genre <- factor(c("Jazz", "Rock", "Classic", "Classic", "Pop", "Jazz", "Rock", "Jazz"))
+
+length(music_genre)
+```
+
+**Access** 
+
+Use `[ ]` brackets to address an item by its sequence in the factor. 
+
+```{r}
+ music_genre <- factor(c("Jazz", "Rock", "Classic", "Classic", "Pop", "Jazz", "Rock", "Jazz"))
+
+music_genre[3] 
+```
+
+#### Changing Item Values 
+
+Use the index number within the factor to assign a new value, **only if** that factor value already exists in the factor. 
+
+This works because `Pop` already exists in the list before the attempt to update it. 
+
+```{r}
+music_genre <- factor(c("Jazz", "Rock", "Classic", "Classic", "Pop", "Jazz", "Rock", "Jazz"))
+
+music_genre[3] <- "Pop" 
+
+music_genre[3]
+```
+
+This example does not work because `Opera` does not already exist in the factor. 
+
+```{r}
+music_genre <- factor(c("Jazz", "Rock", "Classic", "Classic", "Pop", "Jazz", "Rock", "Jazz"))
+
+music_genre[3] <- "Opera"
+
+music_genre[3]
+```
+
+This does not work, even though the error does not trigger a fatal error message. To resolve this gap, use the `levels` argument to define the new value within the factor _before_ assigning the new value. 
+
+```{r}
+music_genre <- factor(c("Jazz", "Rock", "Classic", "Classic", "Pop", "Jazz", "Rock", "Jazz"), levels = c("Classic", "Jazz", "Pop", "Rock", "Opera"))
+
+music_genre[3] <- "Opera"
+
+music_genre[3] 
+
+music_genre
+```
+
+## Section: R Graphics 
+
+### Topic: Plotting 
+
+The `plot()` function draws points (markers) in a diagram, and it requires parameters specifying points in a diagram. 
+
+
+```{r}
+plot(1, 4) 
+```
+
+
+- Parameter 1 specifies points on the **x-axis** 
+- Parameter 2 specifies points on the **y-acis** 
+
+The most basic plot consists of two numbers that place a single point in a two-dimensional plane. Use vectors to draw two points: 
+
+```{r}
+plot(c(1, 8, 5), c(3, 10, 7))
+```
+
+The first argument contains the - axis values for all points on the plan, and the second argument contains all y-axis points. 
+
+This structure can be scaled up to support any nubmer of points, as long as you provide the same number of points in both axes. 
+
+```{r}
+plot(c(1, 2, 3, 4, 5), c(3, 7, 8, 9, 12))
+```
+
+A better organization method is to maintain all points in variables: 
+
+```{r}
+x <- c(1, 2, 3, 4, 5)
+y <- c(3, 7, 8, 9, 12)
+
+plot(x, y)
+```
+
+This structure makes identifying and validating the plot values must more straightforward. 
+
+#### Sequences of Points 
+
+Use the `:` operator to draw points in a sequence on both the x and y-axis: 
+
+```{r}
+plot(1:10)
+```
+
+#### Draw a Line 
+
+Add the parameter `l` to add a line connecting the points on a plot. 
+
+```{r}
+plot(1:10, type = "l") 
+```
+
+
+#### Plot Labels 
+
+Use parameters like `main`, `xlab`, and `ylab` to customize the graph title and label elements. 
+
+```{r}
+plot(1:15, pch = 25, col="red", cex = 2, main = "Graph Title", xlab="the x-axis", ylab="The y axis") 
+
+```
+
+### Topic: Line Graphs 
+
+A line graph has a line that connects all points on the diagram, and the `"l"` parameter generates the line. 
+
+Some key lien graph parameters include: 
+
+- **col** controls **color**: `col =  "blue"` 
+
+- **lwd** controls **line width**: `lwd = 2` 
+
+- **lty** controls **line type**: `lty = 3` 
+
+  - Line Type Valid Values: 
+  - 0 removes the line
+  - 1 displays a solid line
+  - 2 displays a dashed line
+  - 3 displays a dotted line
+  - 4 displays a "dot dashed" line
+  - 5 displays a "long dashed" line
+  - 6 displays a "two dashed" line 
+  
+```{r}
+plot(1:10, type="l", col= "blue", lwd = 4, lty = 6)
+```
+
+
+#### Multiple Lines 
+
+To depict more than one line on a graph, use the `plot()` and `lines()` functions to depict multiple lines. 
+
+```{r}
+line1 <- c(1,2,3,4,5,10)
+line2 <- c(2,5,7,8,9,10)
+
+plot(line1, type = "l", col = "blue")
+lines(line2, type="l", col = "red")
+```
+
+### Topic: Scatter Plot 
+
+Scatter plots leverage the same `plot()` function discussed earlier. This function requires two vectors of the same length: one for the horizontal x-axis and one for the vertical y-axis. 
+
+```{r}
+x <- c(5,7,8,7,2,2,9,4,11,12,9,6)
+y <- c(99,86,87,88,111,103,87,94,78,77,85,86)
+
+plot(x, y, main="Observation of Cars", xlab="Car age", ylab="Car speed")
+```
+
+
+#### Comparing Plots 
+
+Use the `points()` function to compare two plots. 
+
+```{r}
+# day one, the age and speed of 12 cars:
+x1 <- c(5,7,8,7,2,2,9,4,11,12,9,6)
+y1 <- c(99,86,87,88,111,103,87,94,78,77,85,86)
+
+# day two, the age and speed of 15 cars:
+x2 <- c(2,2,8,1,15,8,12,9,7,3,11,4,7,14,12)
+y2 <- c(100,105,84,105,90,99,90,95,94,100,79,112,91,80,85)
+
+plot(x1, y1, main="Observation of Cars", xlab="Car age", ylab="Car speed", col="red", cex=2)
+points(x2, y2, col="blue", cex=2)
+```
+
+### Topic: Pie Charts 
+
+```{r}
+# Create a vector of pies
+x <- c(10,20,30,40)
+
+# Display the pie chart
+pie(x)
+```
+
+
+#### Start Angle 
+
+Change the starting angle via the `init.angle` parameter, which is defined in degress and defaults to 0. 
+
+```{r}
+# Create a vector of pies
+x <- c(10,20,30,40)
+
+# Display the pie chart and start the first pie at 90 degrees
+pie(x, init.angle = 90)
+```
+
+
+#### Labels and Header 
+
+The `label` parameter applies a label to each data series value, and the `main` parameter applies a title to the entire graph. 
+
+```{r}
+# Create a vector of pies
+x <- c(10,20,30,40)
+
+# Create a vector of labels
+mylabel <- c("Apples", "Bananas", "Cherries", "Dates")
+
+# Display the pie chart with labels
+pie(x, label = mylabel, main = "Fruits")
+```
+
+#### Colors 
+
+```{r}
+# Create a vector of colors
+colors <- c("blue", "yellow", "green", "black")
+mylabel <- c("Apples", "Bananas", "Cherries", "Dates")
+
+
+# Display the pie chart with colors
+pie(x, label = mylabel, main = "Fruits", col = colors)
+```
+
+#### Legend 
+
+Legend positions can be defined with one of the following options: 
+
+  - bottomright 
+  - bottom 
+  - bottomleft 
+  - left 
+  - topleft 
+  - top 
+  - topright 
+  - right 
+  - center
+
+This is a culmination 
+
+```{r}
+# Create a vector of labels
+mylabel <- c("Apples", "Bananas", "Cherries", "Dates")
+
+# Create a vector of colors
+colors <- c("blue", "yellow", "green", "black")
+
+# Display the pie chart with colors
+pie(x, label = mylabel, main = "Pie Chart", col = colors)
+
+# Display the explanation box
+legend("bottomright", mylabel, fill = colors)
+```
+
+### Topic: Bar Charts 
+
+The `barplot()` function draws a vertical chart, and the `names.arg` defines the values shown as the series value label 
+
+
+```{r}
+# x-axis values
+x <- c("A", "B", "C", "D")
+
+# y-axis values
+y <- c(52, 64, 76, 88)
+
+barplot(y, names.arg = x)
+```
+
+#### Bar Color 
+
+Similr to other chart types, the `col` parameter controls the colors 
+
+```{r}
+x <- c("A", "B", "C", "D")
+y <- c(2, 4, 6, 8)
+
+barplot(y, names.arg = x, col = "red")
+```
+
+#### Density & Bar Texture 
+
+Bar density at level 10 
+
+```{r}
+x <- c("A", "B", "C", "D")
+y <- c(2, 4, 6, 8)
+
+barplot(y, names.arg = x, density = 10)
+```
+
+Bar density at level 30 
+
+```{r}
+x <- c("A", "B", "C", "D")
+y <- c(2, 4, 6, 8)
+
+barplot(y, names.arg = x, density = 30)
+```
+
+
+#### Bar Width 
+
+The `width` parameter controls the width of each bar. Here is the view with custom widths ... 
+
+```{r}
+x <- c("A", "B", "C", "D")
+y <- c(2, 4, 6, 8)
+
+barplot(y, names.arg = x, width = c(1,2,3,4))
+```
+
+... and here is the view with default widths: 
+
+```{r}
+x <- c("A", "B", "C", "D")
+y <- c(2, 4, 6, 8)
+
+barplot(y, names.arg = x)
+```
+
+
+#### Horizontal Bars 
+
+Use the `horiz = TRUE` option to flip the bars to horizontal orientation. 
+
+```{r}
+x <- c("A", "B", "C", "D")
+y <- c(2, 4, 6, 8)
+
+barplot(y, names.arg = x, horiz = TRUE)
+```
+
+## Section: Statistics 
+
+Statistics is the science of analyzing, reviewing and conclude data, and it is the foundation for many technologies and experiences that power our daily lives. The R language was purpose-built for statistics and boasts numerous core capabilities and extensions for advanced statistical analysis. 
+
+### Topic: Data Set 
+
+A data set is a collection of data, frequently organized into a tabular format, that is well-suited to statistical analysis. 
+
+The exercises below rely on a built-in sample dataset, from the "Motor Trend" magazine, representing 1974 road tests. 
+
+#### Capturing Context & Metadata 
+
+
+**Dataset Printout** 
+
+Simply typing the name prints the entire dataset. 
+
+```{r}
+mtcars
+```
+
+**Detailed Context**
+
+Prefixing the dataset name with `?` reveals detailed context in the RStudio help viewer panel. (Note: nothing appears in the `knitr` output from this command.) 
+
+```{r}
+?mtcars
+```
+
+**Capturing Dataset Dimensions and Names** 
+
+- The `dim()` function returns the dimensions of the data set, represented as the number of rows and the number of columns. 
+- The `names()` function returns the names of the variables. 
+- The `rownames()` function returns the data values from the first column across all rows.
+
+```{r}
+dim(mtcars) 
+names(mtcars)
+rownames(mtcars) 
+# Note: there's no apparent output difference between running these commmands against the base mtcars dataset and assigning the dataset to a variable. 
+```
+
+**Printing Variable Values** 
+
+To reference a specific variable (column) and view its observations (row values), use the following structure: 
+```
+[dataset name]$[variable name]
+``` 
+Example: 
+
+```{r}
+mtcars$wt
+```
+
+#### Sorting and Analyzing 
+
+##### Sorting 
+
+Use the `sort()` function to, well, sort the data. 
+
+**Note 1:** It's best practice and a desirable habit to first write an input dataset to a variable before performing any operations or updates. This practice provides a valuable safety net protecting against accidental undesirable manipulations of source data. "Good thing I have a backup" is one of the best sentence ever uttered; it's much better than "Oh #$%^## what did I just do to that file?" 
+
+**Note 2:** The `sort()` function does _not_ change the order of the information in the persisted dataset. Notice the order of values before any sorting: 
+
+```{r}
+Data_Cars <- mtcars
+Data_Cars$wt
+```
+
+The `sort` function places the weight values (in increments of 1000 pounts) in ascending order. 
+
+```{r}
+sort(Data_Cars$wt)
+```
+
+By fetching the values again, we see the values returned to their original pre-sorting order. 
+
+```{r}
+Data_Cars$wt
+```
+
+##### Initial Analysis
+
+Use the `summary()` function to get a basic out-of-the-box statistical summary of the dataset. Although it isn't customized or necessarily appropriate for the specific dataset, it's a great starting point for analysis and it comes with barely any effort. 
+
+```{r}
+Data_Cars <- mtcars 
+summary(Data_Cars) 
+```
+
+
+### Topic: Max, Min, Outliers 
+
+#### Max & Min Values 
+
+The `min()` function returns the smallest value in a given column, and the `max()` function returns the largest value. 
+
+```{r}
+Data_Cars <- mtcars 
+
+max(Data_Cars$qsec) # largest time = slowest quarter mile speed 
+min(Data_Cars$qsec) # smallest time = fastest quarter mile speed 
+
+```
+
+These results simply show the max & min values, but we have no idea which cars produced them. 
+
+#### Which
+
+Use the `which` function to find the index position of a given value in a table. 
+
+```{r}
+Data_Cars <- mtcars
+
+which.max(Data_Cars$qsec) # row index number of the slowpoke 
+which.min(Data_Cars$qsec) # row index number of the speedster 
+```
+
+This tells us the row number, but now it's a pain to go find that row in the table ... 
+
+#### Which + Rownames 
+
+Using `which` and `rownames` together allows us to find the actual cars that produced these values: 
+
+```{r}
+Data_Cars <- mtcars 
+
+rownames(Data_Cars)[which.max(Data_Cars$qsec)] # and the slowest is ... 
+rownames(Data_Cars)[which.min(Data_Cars$qsec)] # and the speediest is ... 
+```
+
+#### Outliers 
+
+Min and Max values tell us which values in a dataset are the outliers like the ...  
+
+- fastest 
+- slowest 
+- heaviest 
+- most efficient 
+
+### Topic: Mean, Median, Mode 
+
+Among the most-used statistical measures are: 
+
+- **Mean** - the average value
+- **Median** - the middle value 
+- **Mode** - the most common value 
+
+
+#### Mean 
+
+Mean is calculated as the sum of values divided by the number of observations. This value is used a LOT but it can be very susceptible to outlier values. For example, U.S. personal net work is significantly distorted by Elon Musk, Larry Ellison, Bill Gates, et al. 
+
+According to a 2022 Federal Reserve's Survey of Consumer Finances, the average (**mean**) U.S. household net worth is **$1.06 million**. 
+
+
+```{r}
+Data_Cars <- mtcars 
+
+mean(Data_Cars$qsec) # the average time required to cover 0.25 miles 
+```
+
+#### Median 
+
+Median is identified as the midpoint of all sorted values; half are above and half are below. If there is a tie, sum the tied values and divide by two. Median is far less influenced by extreme values and should be used alongside mean; the difference helps explain the dispersion of the values. 
+
+According to the same 2022 Federal Reserve's Survey of Consumer Finances, the **median** net worth is **$192,700**. 
+
+
+```{r}
+Data_Cars <- mtcars 
+
+median(Data_Cars$qsec) # the median time to cover 0.25 miles 
+```
+
+
+#### Mode 
+
+The mode of a dataset is the value that appears most often. 
+
+Somewhat surprisingly, R does not have a native mode function, so we have to leverage the `table` function, which creates a frequency table indicating how often a value appears in the dataset. By sorting this table, we see which value occurs most frequently. 
+
+```{r}
+names(sort(table(Data_Cars$cyl), decreasing = TRUE))[1] # returns the most common cylinder count 
+```
+
+This means **eight-cylinder engines were most common** in this population of cars tested in 1974. The OPEC oil embargo began in late 1973  and these cars weren't designed with fuel economy as a high priority, hence the prevalence of big eight-cylinder engines. 
+
+##### Mode Side Quest: Explaining the use of table: 
+
+This solution is much more complex than R's super-simple built-in function, so let's explain how it works: 
+
+The `table` function creates this distribution of cylinder counts: 
+
+```{r}
+table(Data_Cars$cyl)
+```
+
+Initially this results set is sorted (ascending) by cylinder count, not the frequency. Sorting the table arranges the data in order of frequency. 
+
+```{r}
+sort(table(Data_Cars$cyl))
+```
+
+However, the default sort order is ascending, which gives us the least common entry first. We want the opposite of that, so let's sort it descending: 
+
+```{r}
+sort(table(Data_Cars$cyl), decreasing = TRUE)
+```
+
+Finally, we only want to know the most common thing, not the number of times it appeared. To solve that, let's use `names` to get the names and at the end we'll add `[1]` to only get the first entry: 
+
+```{r}
+names(sort(-table(Data_Cars$cyl)))[1]
+```
+
+
+### Topic: Percentiles 
+
+A percentile indicates the value below which a given percentage of data falls.
+
+Example: Checking for a specific percentile of interest (75th percentile)
+
+```{r}
+Data_Cars <- mtcars
+
+# c() specifies which percentile you want
+quantile(Data_Cars$wt, c(0.75))
+```
+
+This tells you 75% of the cars in the dataset weigh 3,610 pounds or less. 
+
+If you weren't worried only about the 75th percentile and you wanted to see the overall quantile distribution: 
+
+```{r}
+Data_Cars <- mtcars
+
+# c() specifies which percentile you want
+quantile(Data_Cars$wt)
+```
+
+**Quantiles vs Quartiles** 
+
+Quartiles are data divided into four parts, when sorted in an ascending order:
+
+- The value of the first quartile cuts off the first 25% of the data
+- The value of the second quartile cuts off the first 50% of the data
+- The value of the third quartile cuts off the first 75% of the data
+- The value of the fourth quartile cuts off the 100% of the data
+
+For some reason, R implements this with the similarly-named `quantile()` function. 
+

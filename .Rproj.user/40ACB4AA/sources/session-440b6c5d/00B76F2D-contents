@@ -1,0 +1,16 @@
+.DS_Store
+My Tableau Repository/Shapes/Arrows/2-7.png
+*.png 
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.tiff
+*.svg
+*.ico
+*.log 
+.Rproj.user/
+# RStudio History files
+.Rhistory
+.RData
+.RDataTmp
