@@ -1,0 +1,120 @@
+---
+title: "dsc520-week02-adair-d"
+author: "Daniel Adair"
+date: "2026-09-15"
+output: html_document
+---
+This is a test file for graphing. 
+
+```{r}
+# x <- c(11, 33, 54, 86, 211, 4)
+x <- rnorm(50) 
+x
+summary(x)
+hist(x) 
+boxplot(x)
+```
+
+--- 
+
+## 2.2 Exercise 
+
+Taking this dataset, create the following plots in R:
+
+1. Bar graph showing product and the sum of sales for each.
+2. Pie chart showing sum of sales by region.
+3. Box plots for average sales by region and average quantities by region.
+4. Histogram of the count of orders by product.
+5. A radial plot showing total sales (for all products) by month. 
+
+
+--- 
+
+### Data Processing 
+
+Tidyverse is a pre-requisite library 
+
+```{r setup, message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
+The following steps: 
+- import the CSV (sales_raw) 
+- transfer the raw data for categorization and data formatting via as.factor and mdy() 
+- transfer the cleaned data into sales_summarized 
+- summarize the cleaned data 
+
+```{r}
+sales_raw <- read_csv("~/dev/msds/dsc520/sales_data_sample.csv")
+
+sales_cleaned <- sales_raw %>% mutate(
+  Product = as.factor(Product),  
+  Region = as.factor(Region),  
+  OrderDate = as.Date(OrderDate, format = "%m/%d/%Y")
+  ) 
+
+sales_summarized <- sales_cleaned %>% 
+  group_by(Product, Region) %>% 
+  summarise(
+    Sales_Sum = sum(TotalSales, na.rm = TRUE), 
+    Sales_Mean = mean(TotalSales, na.rm = TRUE), 
+    Order_Count = n(), 
+    Quantity_Sum = sum(Quantity, na.rm = TRUE), 
+    .groups = "drop" 
+    ) 
+
+glimpse(sales_summarized)
+```
+
+
+--- 
+
+### 2.2.1 - Bar Chart 
+
+1. Bar graph showing product and the sum of sales for each.
+
+I'm passing **sales_summarized** through a `group_by` function to roll up sales by product. The output is passed to `barplot` for assembling the bar chart. 
+
+```{r}
+product_sales <- sales_summarized %>% 
+  group_by(Product) %>%
+  summarise(Product_Sales = sum(Sales_Sum, na.rm = TRUE), .grops = "DROP") 
+
+barplot( 
+  height = product_sales$Product_Sales, 
+  names.arg = product_sales$Product, 
+  col = "steelblue", 
+  main = "Total Sales by Product", 
+  xlab = "Product", 
+  ylab = "Total Sales"
+  )
+```
+
+--- 
+
+### 2.2.2 - Pie Chart  
+
+2. Pie chart showing sum of sales by region.
+
+--- 
+
+### 2.2.3 - Box Plot Chart 
+
+3. Box plots for average sales by region and average quantities by region.
+
+
+--- 
+
+### 2.2.4 - Histogram  
+
+4. Histogram of the count of orders by product.
+
+
+---
+
+### 2.2.5 - Radial Plot 
+
+5. A radial plot showing total sales (for all products) by month. 
+
+
+--- 
