@@ -1,0 +1,64 @@
+## # A tibble: 16 × 6
+##    Product   Region Sales_Sum Sales_Mean Order_Count Quantity_Sum
+##    <fct>     <fct>      <dbl>      <dbl>       <int>        <dbl>
+##  1 Product_A East       8465.       302.          28          282
+##  2 Product_A North      7404.       255.          29          280
+##  3 Product_A South      5693.       203.          28          248
+##  4 Product_A West       5714.       204.          28          263
+##  5 Product_B East      17291.       432.          40          373
+##  6 Product_B North     10304.       412.          25          243
+##  7 Product_B South     13888.       514.          27          245
+##  8 Product_B West      12788.       457.          28          259
+##  9 Product_C East      15990.       516.          31          283
+## 10 Product_C North     15145.       459.          33          324
+## 11 Product_C South      9611.       331.          29          287
+## 12 Product_C West      15243.       391.          39          359
+## 13 Product_D East      12201.       452.          27          248
+## 14 Product_D North     18069.       430.          42          359
+## 15 Product_D South     18404.       558.          33          377
+## 16 Product_D West      16273.       581.          28          318
+
+# Load the packages used for data preparation and plotting.
+library(tidyverse)
+
+# Re-create the dataset shown above as a tibble.
+sales_data <- tribble(
+	~Product, ~Region, ~Sales_Sum, ~Sales_Mean, ~Order_Count, ~Quantity_Sum,
+	"Product_A", "East", 8465, 302, 28, 282,
+	"Product_A", "North", 7404, 255, 29, 280,
+	"Product_A", "South", 5693, 203, 28, 248,
+	"Product_A", "West", 5714, 204, 28, 263,
+	"Product_B", "East", 17291, 432, 40, 373,
+	"Product_B", "North", 10304, 412, 25, 243,
+	"Product_B", "South", 13888, 514, 27, 245,
+	"Product_B", "West", 12788, 457, 28, 259,
+	"Product_C", "East", 15990, 516, 31, 283,
+	"Product_C", "North", 15145, 459, 33, 324,
+	"Product_C", "South", 9611, 331, 29, 287,
+	"Product_C", "West", 15243, 391, 39, 359,
+	"Product_D", "East", 12201, 452, 27, 248,
+	"Product_D", "North", 18069, 430, 42, 359,
+	"Product_D", "South", 18404, 558, 33, 377,
+	"Product_D", "West", 16273, 581, 28, 318
+)
+
+# Box plot of average sales by region.
+ggplot(sales_data, aes(x = Region, y = Sales_Mean, fill = Region)) +
+	geom_boxplot(show.legend = FALSE) +
+	labs(
+		title = "Average Sales by Region",
+		x = "Region",
+		y = "Average Sales"
+	) +
+	theme_minimal()
+
+# Box plot of quantities by region, with the mean shown as a point.
+ggplot(sales_data, aes(x = Region, y = Quantity_Sum, fill = Region)) +
+	geom_boxplot(show.legend = FALSE) +
+	stat_summary(fun = mean, geom = "point", shape = 18, size = 3) +
+	labs(
+		title = "Average Quantity by Region",
+		x = "Region",
+		y = "Quantity"
+	) +
+	theme_minimal()
