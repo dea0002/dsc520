@@ -1,25 +1,13 @@
 ---
 title: "dsc520-week02-adair-d"
 author: "Daniel Adair"
-date: "2026-09-15"
+date: "2026-09-19"
 output: html_document
 ---
-This is a test file for graphing. 
-
-```{r}
-# x <- c(11, 33, 54, 86, 211, 4)
-x <- rnorm(50) 
-x
-summary(x)
-hist(x) 
-boxplot(x)
-```
-
---- 
 
 ## 2.2 Exercise 
 
-Taking this dataset, create the following plots in R:
+Taking the provided dataset, create the following plots in R:
 
 1. Bar graph showing product and the sum of sales for each.
 2. Pie chart showing sum of sales by region.
@@ -44,7 +32,7 @@ The following steps:
 - transfer the cleaned data into sales_summarized 
 - summarize the cleaned data 
 
-```{r}
+```{r 2.2.x Data Prep}
 sales_raw <- read_csv("~/dev/msds/dsc520/sales_data_sample.csv")
 
 sales_cleaned <- sales_raw %>% mutate(
@@ -71,14 +59,14 @@ glimpse(sales_summarized)
 
 ### 2.2.1 - Bar Chart 
 
-1. Bar graph showing product and the sum of sales for each.
+**Task:** Bar graph showing product and the sum of sales for each.
 
 I'm passing **sales_summarized** through a `group_by` function to roll up sales by product. The output is passed to `barplot` for assembling the bar chart. 
 
-```{r}
+```{r 2.2.1 Bar}
 product_sales <- sales_summarized %>% 
   group_by(Product) %>%
-  summarise(Product_Sales = sum(Sales_Sum, na.rm = TRUE), .grops = "DROP") 
+  summarise(Product_Sales = sum(Sales_Sum, na.rm = TRUE), .groups = "drop") 
 
 barplot( 
   height = product_sales$Product_Sales, 
@@ -94,27 +82,162 @@ barplot(
 
 ### 2.2.2 - Pie Chart  
 
-2. Pie chart showing sum of sales by region.
+**Task:** Pie chart showing sum of sales by region. 
+
+```{r 2.2.2 Pie}
+
+# Summarizes and prepares data. 
+product_sales_pie <- sales_summarized %>% 
+  group_by(Region) %>%
+  summarise(Product_Sales = sum(Sales_Sum, na.rm = TRUE), .groups = "drop") 
+
+# Pie chart of product sales by region. 
+pie(
+  product_sales_pie$Product_Sales, 
+  labels = paste0(product_sales_pie$Region, ": $", scales::comma(product_sales_pie$Product_Sales)),
+  main = "Product Sales by Region"
+  )
+
+```
+
 
 --- 
 
 ### 2.2.3 - Box Plot Chart 
 
-3. Box plots for average sales by region and average quantities by region.
+**Task:** Box plots for average sales by region and average quantities by region.
+
+```{r 2.2.3 Box Plot}
+
+# Summarizes and prepares data. 
+sales_summarized_box <- sales_cleaned %>% 
+  group_by(Product, Region) %>% 
+  summarise(
+    Sales_Sum = sum(TotalSales, na.rm = TRUE), 
+    Sales_Mean = mean(TotalSales, na.rm = TRUE), 
+    Order_Count = n(), 
+    Quantity_Sum = sum(Quantity, na.rm = TRUE), 
+    .groups = "drop" 
+    ) 
+
+# Box plot of average sales by region.
+ggplot(sales_summarized_box, aes(x = Region, y = Sales_Mean, fill = Region)) +
+	geom_boxplot(show.legend = FALSE) +
+	labs(
+		title = "Average Sales by Region",
+		x = "Region",
+		y = "Average Sales"
+	) +
+	theme_minimal() 
+
+# Box plot of quantities by region, with the mean shown as a point.
+ggplot(sales_summarized_box, aes(x = Region, y = Quantity_Sum, fill = Region)) +
+	geom_boxplot(show.legend = FALSE) +
+	stat_summary(fun = mean, geom = "point", shape = 18, size = 3) +
+	labs(
+		title = "Average Quantity by Region",
+		x = "Region",
+		y = "Quantity"
+	) +
+	theme_minimal()
+
+# boxplot(sales_summarized_box$Product_Sales, sales_summarized_box)
+# ggplot(sales_summarized_box$Product_Sales, aes(Region))
+
+```
 
 
 --- 
 
 ### 2.2.4 - Histogram  
 
-4. Histogram of the count of orders by product.
+**Task:** Histogram of the count of orders by product. 
+
+Note: It seems this is an invalid combination of parameters, according to the textbook's definition of a histogram: 
+
+> The key difference between a bar plot and a histogram is that bar plots have categories on the x-axis and histograms have numerical ranges on the X-axis. 
+
+By definition, it would seem a histogram "by product" would amount to a bar chart. Since I already demonstrated the bar chart and the book emphasizes the difference between the graphs, I chose to focus on a histogram for this exercise. 
+
+
+```{r 2.2.4 Histogram}
+
+x <- sales_summarized$Order_Count 
+hist(x) 
+
+```
 
 
 ---
 
 ### 2.2.5 - Radial Plot 
 
-5. A radial plot showing total sales (for all products) by month. 
+**Task:** A radial plot showing total sales (for all products) by month. 
+
+```{r 2.2.5 Radial plot}
+
+# Summarize total sales across all products for each month.
+monthly_sales <- sales_cleaned %>%
+  mutate(Month = floor_date(OrderDate, unit = "month")) %>%
+  group_by(Month) %>%
+  summarise(
+    Total_Sales = sum(TotalSales, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  arrange(Month) %>%
+  # Keep every calendar month in the sequence, even if a month has no sales.
+  complete(
+    Month = seq(min(Month), max(Month), by = "month"),
+    fill = list(Total_Sales = 0)
+  )
+
+# Use a numeric position for each month. This avoids the factor/label mismatch
+# that can occur when the first month is duplicated to close the circle.
+radial_sales <- monthly_sales %>%
+  mutate(
+    Month_Number = row_number(),
+    Month_Label = format(Month, "%b %Y")
+  )
+
+# Add a separate final x-position at the same angle as the first month so the
+# line closes cleanly when it is transformed to polar coordinates.
+radial_sales_closed <- radial_sales %>%
+  bind_rows(
+    slice(radial_sales, 1) %>%
+      mutate(Month_Number = nrow(radial_sales) + 1)
+  )
+
+# Create a cleaner radial time-series plot. All monthly observations remain
+# visible, but only every third month is labeled to prevent label overlap.
+ggplot(radial_sales_closed, aes(x = Month_Number, y = Total_Sales, group = 1)) +
+  geom_line(linewidth = 1, color = "steelblue") +
+  geom_point(
+    data = radial_sales,
+    aes(x = Month_Number, y = Total_Sales),
+    size = 2,
+    color = "steelblue"
+  ) +
+  coord_polar(theta = "x", start = -pi / 2, direction = 1) +
+  scale_x_continuous(
+    breaks = seq(1, nrow(radial_sales), by = 3),
+    labels = radial_sales$Month_Label[seq(1, nrow(radial_sales), by = 3)],
+    limits = c(1, nrow(radial_sales) + 1),
+    expand = c(0, 0)
+  ) +
+  scale_y_continuous(expand = c(0, 0)) +
+  labs(
+    title = "Total Sales by Month",
+    x = NULL,
+    y = "Total Sales"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(size = 9),
+    panel.grid.minor = element_blank(),
+    plot.margin = margin(20, 30, 20, 30)
+  )
+
+```
 
 
 --- 

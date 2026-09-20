@@ -22,7 +22,7 @@
 library(tidyverse)
 
 # Re-create the dataset shown above as a tibble.
-sales_data <- tribble(
+sales_summarized <- tribble(
 	~Product, ~Region, ~Sales_Sum, ~Sales_Mean, ~Order_Count, ~Quantity_Sum,
 	"Product_A", "East", 8465, 302, 28, 282,
 	"Product_A", "North", 7404, 255, 29, 280,
@@ -43,7 +43,7 @@ sales_data <- tribble(
 )
 
 # Box plot of average sales by region.
-ggplot(sales_data, aes(x = Region, y = Sales_Mean, fill = Region)) +
+ggplot(sales_summarized, aes(x = Region, y = Sales_Mean, fill = Region)) +
 	geom_boxplot(show.legend = FALSE) +
 	labs(
 		title = "Average Sales by Region",
@@ -53,7 +53,7 @@ ggplot(sales_data, aes(x = Region, y = Sales_Mean, fill = Region)) +
 	theme_minimal()
 
 # Box plot of quantities by region, with the mean shown as a point.
-ggplot(sales_data, aes(x = Region, y = Quantity_Sum, fill = Region)) +
+ggplot(sales_summarized, aes(x = Region, y = Quantity_Sum, fill = Region)) +
 	geom_boxplot(show.legend = FALSE) +
 	stat_summary(fun = mean, geom = "point", shape = 18, size = 3) +
 	labs(
@@ -62,3 +62,30 @@ ggplot(sales_data, aes(x = Region, y = Quantity_Sum, fill = Region)) +
 		y = "Quantity"
 	) +
 	theme_minimal()
+
+# Radial plot of total sales for all products by month.
+# This code assumes the original transaction-level data is named sales_data
+# and contains Order_Date and Sales columns.
+monthly_sales <- sales_data %>%
+	mutate(
+		Month = floor_date(as.Date(Order_Date), unit = "month")
+	) %>%
+	group_by(Month) %>%
+	summarise(
+		Total_Sales = sum(Sales, na.rm = TRUE),
+		.groups = "drop"
+	) %>%
+	arrange(Month)
+
+ggplot(monthly_sales, aes(x = Month, y = Total_Sales)) +
+	geom_col(fill = "steelblue", color = "white", width = 25) +
+	coord_polar() +
+	scale_x_date(date_breaks = "1 month", date_labels = "%b") +
+	labs(
+		title = "Total Sales by Month",
+		x = "Month",
+		y = "Total Sales"
+	) +
+	theme_minimal()
+
+    
