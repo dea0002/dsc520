@@ -24,37 +24,101 @@ Specifically, for each numeric attribute in the dataset:
 Tidyverse is a pre-requisite library, and the initial import captures the sales data sample. 
 
 ```{r setup, message=FALSE, warning=FALSE}
-library(tidyverse)
-sales_raw <- read_csv("~/dev/msds/dsc520/sales_data_sample.csv")
+library(ggplot2)
+library(tidyverse) 
+library(dplyr)
+
+sales_raw <- read_csv("~/dev/msds/dsc520/sales_data_sample.csv") 
+
+sales_cleaned <- sales_raw %>% mutate(
+  Product = as.factor(Product),  
+  Region = as.factor(Region),  
+  OrderDate = as.factor(as.Date(OrderDate, format = "%m/%d/%Y"))
+  ) 
+
+# sales_summarized <- sales_cleaned %>% 
+#   group_by(Product, Region) %>% 
+#   summarise(
+#     Sales_Sum = sum(TotalSales, na.rm = TRUE), 
+#     Sales_Mean = mean(TotalSales, na.rm = TRUE), 
+#     Order_Count = n(), 
+#     Quantity_Sum = sum(Quantity, na.rm = TRUE), 
+#     .groups = "drop" 
+#     ) 
+
+view(sales_cleaned)
+glimpse(sales_cleaned)
 ```
 
 --- 
 
-# Measures of Central Tendency 
+# 1 - Measures of Central Tendency 
 
-## Mean 
-## Median 
-## Mode 
+## 1.1 - Mean 
+
+```{r 1-1 Mean} 
+
+mean_sales <- mean(sales_cleaned$TotalSales)
+paste0("Mean Total Sales: $", round(mean_sales, 2)) 
+
+ggplot(sales_cleaned, aes(x = sales_cleaned$TotalSales)) + 
+  geom_histogram(bins = 30, fill = "skyblue", color = "white") +
+    labs(title = "Total Sales Distribution", x = "Total Sales", y = "Frequency") +
+    theme_minimal()
+       
+hist(sales_cleaned$TotalSales) 
+
+# Calculate the mean
+# mean_val <- mean(data$rainfall, na.rm = TRUE)
+
+# Render the distribution with the mean overlaid
+ggplot(sales_cleaned, aes(x = TotalSales)) +
+  geom_histogram(bins = 30, fill = "skyblue", color = "white", alpha = 0.8) +
+  geom_vline(aes(xintercept = mean_sales), 
+             color = "red", linetype = "dashed", linewidth = 1) +
+  annotate("text", x = mean_sales, y = Inf, label = paste("Mean:", round(mean_sales, 2)), 
+           vjust = 2, hjust = -0.1, color = "red", fontface = "bold") +
+  labs(
+    title = "Total Sales Distribution with Mean",
+    x = "Total Sales",
+    y = "Frequency"
+  ) +
+  theme_minimal()
+
+
+paste0("Mean Unit Price: $", round(mean(sales_cleaned$UnitPrice), 2)) 
+paste0("Mean Quantity: ", round(mean(sales_cleaned$Quantity), 2)) 
+
+```
+
+
+
+## 1.2 - Median 
+## 1.3 - Mode 
 
 --- 
 
-# Measures of Dispersion 
+# 2 - Measures of Dispersion 
 
-## Variance 
-## Standard Deviation 
-## Heteroscedasticity & Homooscedasticity 
-## Full Width at Half Maximum (FWHM) 
-## Fano Factor and Coefficient of Variation 
-## Interquartile Range 
-## QQ Plots 
+## 2.1 - Variance 
+## 2.2 - Standard Deviation 
+
+sd(sales_cleaned$TotalSales)
+
+
+## 2.3 - Heteroscedasticity & Homooscedasticity 
+## 2.4 - Full Width at Half Maximum (FWHM) 
+## 2.5 - Fano Factor and Coefficient of Variation 
+## 2.6 - Interquartile Range 
+## 2.7 - QQ Plots 
 
 --- 
 
-# Statistical Moments 
+# 3 - Statistical Moments 
 
 --- 
 
-# Histograms 
+# 4 - Histograms 
 
 
 --- 
